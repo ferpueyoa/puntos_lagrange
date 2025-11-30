@@ -12,27 +12,29 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 24px;
         }
 
+        /*Vertical*/
         .container {
             background: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            display: grid;
-            grid-template-columns: auto auto;
-            /* Dos columnas */
-            gap: 20px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            min-width: 600px;
-            min-height: 400px;
+            gap: 16px;
+            max-width: 720px;
+            width: 100%;
         }
 
         .container img {
-            max-width: 300px;
-            /* Ajusta tamaño */
+            max-width: 480px;
+            width: 100%;
+            height: auto;
             border-radius: 8px;
             display: block;
         }
@@ -40,10 +42,13 @@
         .formulario {
             display: flex;
             flex-direction: column;
-            width: 220px;
+            width: 100%;
+            max-width: 420px;
         }
 
-        h1 {
+        h1,
+        h2,
+        h3 {
             font-size: 1.4rem;
             margin-bottom: 10px;
             color: #333;
@@ -62,8 +67,22 @@
             font-size: 1rem;
         }
 
+        .fila-opciones {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .fila-botones {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
         button {
-            margin-top: 15px;
             padding: 10px;
             background: #0078d7;
             color: #fff;
@@ -78,13 +97,35 @@
             background: #005fa3;
         }
 
+        .secundario {
+            background: #555;
+        }
+
+        .secundario:hover {
+            background: #444;
+        }
+
         .resultado {
             margin-top: 10px;
-            font-size: 1.1rem;
+            font-size: 1.0rem;
             color: #0078d7;
             font-weight: bold;
-            text-align: center;
         }
+
+
+        .hr-dashed {
+            border: 0;
+            border-top: 2px dashed #0078d7;
+            width: 100%;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            opacity: 0.7;
+            visibility: hidden;
+        }
+
+
+
+        /* En pantallas pequeñas */
 
         @media (max-width: 650px) {
             body {
@@ -92,19 +133,8 @@
             }
 
             .container {
-                grid-template-columns: 1fr;
-                min-width: auto;
-                min-height: auto;
-                justify-items: center;
                 box-shadow: none;
-            }
-
-            .container img {
-                max-width: 90%;
-            }
-
-            .formulario {
-                width: 90%;
+                padding: 16px;
             }
         }
     </style>
@@ -112,39 +142,174 @@
 
 <body>
     <div class="container">
-        <img src="https://elseptimocielo.fundaciondescubre.es/files/2022/08/Lagrange-2.png">
+        <h1>Calculadora de Puntos de Lagrange</h1>
+        <p>Esta web permite calcular las distancias entre los cinco puntos de Lagrange y el centro de masas de cualquier
+            sistema de dos cuerpos masivos que se ejerzan una atracción gravitatoria mútua, siendo el centro de masas el
+            centro de un sistema cartesiano de coordenadas.
+            Para ello, solo hará falta colocar las masas de los cuerpos M1 y M2 y la distancia que los une R.
+            <br>
+            <br>Para que el programa funcione, será necesario:
+            <br>Que se den los datos en el sistema internacional de unidades, las masas en kilogramos y la distancia
+            entre los dos cuerpos en metros.
+            <br>Que se tome la masa M1 como la masa más grande.
+            <br>
+            <br> Para introducir los datos en notación científica, se usará la letra "e" seguido del signo del exponente
+            y el exponente, para multiplicar por diez elevado al número que se requiera, como se muestra en el ejemplo:
+
+            <br> 5,972*10^24 -> 5,972e24
+            <br>
+           <br>El programa consta de una imagen de referencia donde se puede observar la localización aparente de los
+            puntos de Lagrange en un sistema de dos cuerpos, además de un botón que permite introducir directamente los
+            datos del sistema Sol-Tierra.
+        </p>
+
+        <img src="img_lag.jpg" alt="">
+
         <div class="formulario">
             <h1>Cálculo</h1>
 
-            <label for="pon1">Pon1:</label>
-            <input type="text" id="pon1" placeholder="Introduce valor (ej. 12,5)" inputmode="decimal" lang="es"
-                pattern="^-?\d+(,\d+)?$" title="Solo números y coma decimal (ej. 12,5)">
+            <label for="M1">M1:</label>
+            <input type="text" id="M1" placeholder="Introduce valor (ej. 1,988e30)" inputmode="decimal" lang="es"
+                title="Números, coma decimal y notación científica (e/E)">
 
-            <label for="pon2">Pon2:</label>
-            <input type="text" id="pon2" placeholder="Introduce valor (ej. 0,75)" inputmode="decimal" lang="es"
-                pattern="^-?\d+(,\d+)?$" title="Solo números y coma decimal (ej. 0,75)">
+            <label for="M2">M2:</label>
+            <input type="text" id="M2" placeholder="Introduce valor (ej. 5,972e24)" inputmode="decimal" lang="es"
+                title="Números, coma decimal y notación científica (e/E)">
 
-            <label for="pon3">Pon3:</label>
-            <input type="text" id="pon3" placeholder="Introduce valor (ej. 100)" inputmode="decimal" lang="es"
-                pattern="^-?\d+(,\d+)?$" title="Solo números y coma decimal (ej. 100)">
+            <label for="R">R:</label>
+            <input type="text" id="R" placeholder="Introduce valor (ej. 1,496e11)" inputmode="decimal" lang="es"
+                title="Números, coma decimal y notación científica (e/E)">
 
+            <div class="fila-opciones">
+                <input type="checkbox" id="scientific">
+                <label for="scientific" style="font-weight:normal">Mostrar en notación científica</label>
+            </div>
 
-            <button onclick="calcular()">Calcular</button>
-            <div class="resultado" id="resultado"></div>
+            <div class="fila-botones">
+                <button onclick="calcular()">Calcular</button>
+                <button class="secundario" onclick="rellenarEjemplo()"> Sistema Sol-Tierra</button>
+                <button class="secundario" onclick="limpiar()">Limpiar</button>
+            </div>
+
+            <hr class="hr-dashed">
+
+            <div class="resultado" id="resultado1"></div>
+            <div class="resultado" id="resultado2"></div>
+            <div class="resultado" id="resultado3"></div>
+            <div class="resultado" id="resultado4"></div>
+            <div class="resultado" id="resultado5"></div>
         </div>
     </div>
 
     <script>
+        /*Filtro de entrada */
+        // Permite dígitos, coma, punto, e/E, signo +/-
+        document.querySelectorAll('input[type="text"]').forEach(input => {
+            input.addEventListener('input', () => {
+                input.value = input.value.replace(/[^0-9eE,.\-+]/g, '');
+            });
+        });
+
+        /*notación científica */
+        function leerValor(id) {
+            let val = document.getElementById(id).value.trim();
+            if (!val) return NaN;
+            // Normaliza coma a punto (ej. "1,988e30" -> "1.988e30")
+            val = val.replace(',', '.');
+            const num = Number(val); // Entiende e/E de forma nativa
+            return Number.isFinite(num) ? num : NaN;
+        }
+
+        /*Formateo de salida */
+        function formatear(num, usarCientifica) {
+            if (!Number.isFinite(num)) return '—';
+            return usarCientifica
+                ? num.toExponential(3) // 3 decimales en mantisa
+                : new Intl.NumberFormat('es-ES', { maximumFractionDigits: 6 }).format(num);
+        }
+
+        /* Ejemplo */
+        const ejemplo = {
+            M1: '1,988e30',   // Masa del Sol (kg)
+            M2: '5,972e24',   // Masa de la Tierra (kg)
+            R: '1,496e11'    // Distancia Sol–Tierra (m)
+        };
+
+        function rellenarEjemplo() {
+            document.getElementById('M1').value = ejemplo.M1;
+            document.getElementById('M2').value = ejemplo.M2;
+            document.getElementById('R').value = ejemplo.R;
+
+        }
+
+        function limpiar() {
+            ['M1', 'M2', 'R'].forEach(id => document.getElementById(id).value = '');
+            ['resultado1', 'resultado2', 'resultado3', 'resultado4', 'resultado5']
+                .forEach(id => document.getElementById(id).textContent = '');
+            document.getElementById('scientific').checked = false;
+        }
+
+
         function calcular() {
-            const v1 = parseFloat(document.getElementById('pon1').value) || 0;
-            const v2 = parseFloat(document.getElementById('pon2').value) || 0;
-            const v3 = parseFloat(document.getElementById('pon3').value) || 0;
+            const M1 = leerValor('M1');
+            const M2 = leerValor('M2');
+            const R = leerValor('R');
 
-            const suma = v1 + v2 + v3;
-            const promedio = (suma / 3).toFixed(2);
+            document.querySelector(".hr-dashed").style.visibility = "visible";
 
-            document.getElementById('resultado').textContent =
-                `Suma: ${suma} | Promedio: ${promedio}`;
+
+            if ([M1, M2, R].some(Number.isNaN)) {
+                document.getElementById('resultado1').textContent =
+                    '⚠️ Revisa los valores: admite números, coma y notación científica (e.g. 1,988e30).';
+                return;
+            }
+            if (M1 + M2 === 0) {
+                document.getElementById('resultado1').textContent = 'Error: M1 + M2 no puede ser 0.';
+                return;
+            }
+            if (M1 === 0) {
+                document.getElementById('resultado1').textContent = 'Error: M1 no puede ser 0 (divide dentro de la raíz).';
+                return;
+            }
+
+            const usarCientifica = document.getElementById('scientific').checked;
+
+            // Centro de masas respecto de M2
+            const Cm2 = (M1 * R) / (M1 + M2);
+
+            // L1
+            const L1r = R * Math.pow(M2 / (3 * M1), 1 / 3);
+            const r1x = Cm2 - L1r;
+            const r1y = 0;
+            document.getElementById('resultado1').textContent =
+                `r1: ( ${formatear(r1x, usarCientifica)};  ${formatear(r1y, usarCientifica)} )`;
+
+            // L2
+            const L2r = R * Math.pow(M1 / (3 * M2), 1 / 3);
+            const r2x = Cm2 + L2r;
+            const r2y = 0;
+            document.getElementById('resultado2').textContent =
+                `r2: ( ${formatear(r2x, usarCientifica)};  ${formatear(r2y, usarCientifica)} )`;
+
+            // L3
+            const L3r = R * (1 + ((17 * M2) / (12 * (M1 + M2))));
+            const Cm1 = (M2 * R) / (M1 + M2);
+            const r3x = -(Cm1 + L3r);
+            const r3y = 0;
+            document.getElementById('resultado3').textContent =
+                `r3: ( ${formatear(r3x, usarCientifica)};  ${formatear(r3y, usarCientifica)} )`;
+
+            // L4
+            const r4x = (R / 2) - Cm1;
+            const r4y = R * Math.pow(3 / 1, 1 / 3) / 2;
+            document.getElementById('resultado4').textContent =
+                `r4: ( ${formatear(r4x, usarCientifica)};  ${formatear(r4y, usarCientifica)} )`;
+
+            // L5
+            const r5x = r4x;
+            const r5y = -r4y;
+            document.getElementById('resultado5').textContent =
+                `r5: ( ${formatear(r5x, usarCientifica)};  ${formatear(r5y, usarCientifica)} )`;
         }
     </script>
 </body>
